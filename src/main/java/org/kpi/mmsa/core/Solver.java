@@ -27,7 +27,7 @@ public class Solver {
         }
 
         System.out.println("\n\tThe Gaussian forward stroke:");
-        printMatrices(matrix);
+        printMatrices(matrix.getA(), matrix.getB(), matrix.getN());
         System.out.println("\n\tThe result of the Gaussian Elimination is:");
         printResult(matrix);
 
@@ -36,64 +36,80 @@ public class Solver {
     private int forwardElimination(Matrix matrix) {
         int nextRow = 0;
 //    changed to matrix->n-1 for not to show last step
-        for (int column = 0; column < matrix.getN()-1; column++) {
-            int maxRow = column;
-            double maxValue = matrix.getA()[maxRow][column];
+        int n = matrix.getN();
+        double[][] matrixA = matrix.getA();
+        double[] matrixB = matrix.getB();
 
-            for (int row = nextRow; row < matrix.getN(); row++) {
-                if (abs(matrix.getA()[row][column]) > maxValue) {
-                    maxValue = matrix.getA()[row][column];
+        for (int column = 0; column < n-1; column++) {
+            int maxRow = column;
+
+            double maxValue = matrixA[maxRow][column];
+
+            for (int row = nextRow; row < n; row++) {
+                if (abs(matrixA[row][column]) > maxValue) {
+                    maxValue = matrixA[row][column];
                     maxRow = row;
                 }
             }
 
-            if (abs(matrix.getA()[column][maxRow]) < ZERO) {
-                if (isZeroRow(matrix, maxRow)) {
+            if (abs(matrixA[column][maxRow]) < ZERO) {
+                if (isZeroRow(matrixA, n, maxRow)) {
                     return column;
                 }
             } else {
                 System.out.println("\n\n\tStep " + (column + 1));
 
                 if(maxRow != column) {
-                    swapRow(matrix, nextRow, maxRow);
+                    swapRow(matrixA, matrixB, n, nextRow, maxRow);
                 }
 
-                for (int i = column+1; i < matrix.getN(); i++) {
-                    double divider = matrix.getA()[column][column];
+                for (int i = column+1; i < n; i++) {
+                    double divider = matrixA[column][column];
                     if (abs(divider) > ZERO) {
-                        double f = matrix.getA()[i][column] / divider;
+                        double f = matrixA[i][column] / divider;
 
-                        for (int j = column+1; j < matrix.getN(); j++) {
-                            matrix.getA()[i][j] -= matrix.getA()[column][j] * f;
+                        for (int j = column+1; j < n; j++) {
+                            matrixA[i][j] -= matrixA[column][j] * f;
                         }
 
-                        matrix.getB()[i] -= matrix.getB()[column] * f;
+                        matrixB[i] -= matrixB[column] * f;
                     }
 
-                    matrix.getA()[i][column] = 0;
+                    matrixA[i][column] = 0;
                 }
-                printMatrices(matrix);
+                printMatrices(matrixA, matrixB, n);
                 nextRow++;
             }
         }
+        matrix.setA(matrixA);
+        matrix.setB(matrixB);
         return -1;
     }
 
     int backSubstitution(Matrix matrix) {
-        for (int i = matrix.getN() - 1; i >= 0; i--) {
-            if (isZeroRow(matrix, i)) {
+        int n = matrix.getN();
+        double[] matrixB = matrix.getB();
+        double[][] matrixA = matrix.getA();
+        double[] matrixX = matrix.getX();
+
+        for (int i = n - 1; i >= 0; i--) {
+            if (isZeroRow(matrixA, n, i)) {
                 return i;
             }
-            matrix.getX()[i] = matrix.getB()[i];
-            for (int j=i+1; j<matrix.getN(); j++) {
-                matrix.getX()[i] -= matrix.getA()[i][j] * matrix.getX()[j];
+            matrixX[i] = matrixB[i];
+            for (int j = i+1; j< n; j++) {
+                matrixX[i] -= matrixA[i][j] * matrixX[j];
             }
-            matrix.getX()[i] = matrix.getX()[i] / matrix.getA()[i][i];
+            matrixX[i] = matrixX[i] / matrixA[i][i];
         }
+
+        matrix.setA(matrixA);
+        matrix.setB(matrixB);
+        matrix.setX(matrixX);
         return -1;
     }
 
-    boolean isSingular(int singularFlag, Matrix matrix) {
+    boolean isSingular(int singularFlag, final Matrix matrix) {
         if (singularFlag == -1) {
             return false;
         }
@@ -107,23 +123,23 @@ public class Solver {
         return true;
     }
 
-    private void swapRow(Matrix matrix, int row1, int row2) {
+    private void swapRow(double[][] matrixA, double[] matrixB, int n, int row1, int row2) {
         System.out.printf("\tSwapped rows %d and %d\n", row1+1, row2+1);
 
-        for (int k = 0; k < matrix.getN(); ++k) {
-            double temp = matrix.getA()[row1][k];
-            matrix.getA()[row1][k] = matrix.getA()[row2][k];
-            matrix.getA()[row2][k] = temp;
+        for (int k = 0; k < n; ++k) {
+            double temp = matrixA[row1][k];
+            matrixA[row1][k] = matrixA[row2][k];
+            matrixA[row2][k] = temp;
         }
 
-        double temp = matrix.getB()[row1];
-        matrix.getB()[row1] = matrix.getB()[row2];
-        matrix.getB()[row2] = temp;
+        double temp = matrixB[row1];
+        matrixB[row1] = matrixB[row2];
+        matrixB[row2] = temp;
     }
 
-    private boolean isZeroRow(Matrix matrix, int row) {
-        for (int col = 0; col < matrix.getN(); ++col) {
-            if (abs(matrix.getA()[row][col]) > ZERO) {
+    private boolean isZeroRow(double[][] matrixA, int n, int row) {
+        for (int col = 0; col < n; ++col) {
+            if (abs(matrixA[row][col]) > ZERO) {
                 return false;
             }
         }
