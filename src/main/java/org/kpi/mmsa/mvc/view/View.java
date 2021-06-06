@@ -16,7 +16,7 @@ public class View {
     public View(int n) {
         this.n = n;
 
-        mainPanel = new JPanel();
+        mainPanel = new JPanel(new BorderLayout());
 
         JPanel equationPanel = new JPanel();
         GridBagLayout gridbag = new GridBagLayout();
