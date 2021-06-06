@@ -1,5 +1,6 @@
 package org.kpi.mmsa.core;
 
+import org.kpi.mmsa.model.Result;
 import org.kpi.mmsa.mvc.view.Model;
 
 import static java.lang.Math.abs;
@@ -8,29 +9,32 @@ import static org.kpi.mmsa.util.PrintUtils.printResult;
 
 public class Solver {
     private final static double ZERO = 10e-7;
+    private StringBuilder sb = new StringBuilder();
 
-    public void solve(Model matrix) {
+    public Result solve(Model matrix) {
+        sb = new StringBuilder();
         if (matrix == null) {
-            System.out.println("\tMatrix is not initialized.\n");
-            return;
+            sb.append("\tMatrix is not initialized.\n");
+            return new Result(matrix, sb.toString());
         }
 
         int singularFlag = forwardElimination(matrix);
 
         if(isSingular(singularFlag, matrix)) {
-            return;
+            return new Result(matrix, sb.toString());
         }
 
         singularFlag = backSubstitution(matrix);
         if (isSingular(singularFlag, matrix)) {
-            return;
+            return new Result(matrix, sb.toString());
         }
 
-        System.out.println("\n\tThe Gaussian forward stroke:");
-        printMatrices(matrix.getA(), matrix.getB(), matrix.getN());
-        System.out.println("\n\tThe result of the Gaussian Elimination is:");
-        printResult(matrix);
+        sb.append("\n\tThe Gaussian forward stroke:");
+        sb.append(printMatrices(matrix.getA(), matrix.getB(), matrix.getN()));
+        sb.append("\n\tThe result of the Gaussian Elimination is:");
+        sb.append(printResult(matrix));
 
+        return new Result(matrix, sb.toString());
     }
 
     private int forwardElimination(Model matrix) {
@@ -57,7 +61,7 @@ public class Solver {
                     return column;
                 }
             } else {
-                System.out.println("\n\n\tStep " + (column + 1));
+                sb.append("\n\n\tStep " + (column + 1));
 
                 if(maxRow != column) {
                     swapRow(matrixA, matrixB, n, nextRow, maxRow);
@@ -77,7 +81,7 @@ public class Solver {
 
                     matrixA[i][column] = 0;
                 }
-                printMatrices(matrixA, matrixB, n);
+                sb.append(printMatrices(matrixA, matrixB, n));
                 nextRow++;
             }
         }
@@ -113,18 +117,18 @@ public class Solver {
         if (singularFlag == -1) {
             return false;
         }
-        System.out.println("\tThe Matrix is Singular.\n");
+        sb.append("\tThe Matrix is Singular.\n");
 
         if (matrix.getB()[singularFlag] > ZERO){
-            System.out.println("\tInconsistent System.");
+            sb.append("\tInconsistent System.");
         } else {
-            System.out.println("\tMay have infinitely many solutions.");
+            sb.append("\tMay have infinitely many solutions.");
         }
         return true;
     }
 
     private void swapRow(double[][] matrixA, double[] matrixB, int n, int row1, int row2) {
-        System.out.printf("\tSwapped rows %d and %d\n", row1+1, row2+1);
+        sb.append("\tSwapped rows %d and %d\n", row1+1, row2+1);
 
         for (int k = 0; k < n; ++k) {
             double temp = matrixA[row1][k];

@@ -1,6 +1,7 @@
 package org.kpi.mmsa.mvc.view;
 
 import org.kpi.mmsa.core.Solver;
+import org.kpi.mmsa.model.Result;
 
 import javax.swing.*;
 
@@ -50,9 +51,9 @@ public class Controller {
         }
 
 
-        solver.solve(this.model);
-        String result = getResult(this.model);
-        view.getTextArea().setText(result);
+        Result result = solver.solve(this.model);
+//        String result = getResult(this.model);
+        view.getTextArea().setText(result.getLog());
     }
 
     private String getResult(Model model) {
