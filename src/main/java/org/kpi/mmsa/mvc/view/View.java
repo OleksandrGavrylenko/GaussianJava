@@ -1,7 +1,5 @@
 package org.kpi.mmsa.mvc.view;
 
-import org.kpi.mmsa.gui.EquationPanel;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,25 +10,38 @@ public class View {
     private JTextField[][] textFields;
     private JButton solveButton;
     private JTextArea textArea;
+    private JComboBox variablesComboBox;
+    private JPanel equationPanel;
 
     public View(int n) {
         this.n = n;
 
         mainPanel = new JPanel(new BorderLayout());
 
-        JPanel equationPanel = new JPanel();
+        JPanel variablesPanel = new JPanel();
+        JLabel label = new JLabel("Select the number of variables");
+        label.setBounds(20, 30, 180, 20);
+        variablesPanel.add(label);
+
+        String[] variables ={"0", "1","2","3","4","5", "6", "7"};
+        variablesComboBox = new JComboBox(variables);
+        variablesComboBox.setSelectedIndex(n);
+        variablesComboBox.setBounds(200, 30, 40, 20);
+        variablesPanel.add(variablesComboBox);
+
+        this.equationPanel = new JPanel();
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
 
-        equationPanel.setLayout(gridbag);
+        this.equationPanel.setLayout(gridbag);
 
-        labels = createLabels(n);
-        textFields = createTextFields(n);
-        addLabelTextRows(labels, textFields, gridbag, equationPanel);
+        this.labels = createLabels(this.n);
+        this.textFields = createTextFields(this.n);
+        addLabelTextRows(labels, textFields, equationPanel);
 
         equationPanel.setBorder(
                 BorderFactory.createCompoundBorder(
-                        BorderFactory.createTitledBorder("Text Fields"),
+                        BorderFactory.createTitledBorder("System of Equations"),
                         BorderFactory.createEmptyBorder(5,5,5,5)));
 
         JPanel buttonPanel = new JPanel();
@@ -44,6 +55,7 @@ public class View {
 //                editorScrollPane,
 //                paneScrollPane);
         JPanel leftPane = new JPanel(new BorderLayout());
+        leftPane.add(variablesPanel, BorderLayout.NORTH);
         leftPane.add(equationPanel,
                 BorderLayout.WEST);
         leftPane.add(buttonPanel,
@@ -76,10 +88,21 @@ public class View {
         createAndShowGUI();
     }
 
+    public void refreshView(int n) {
+        this.n = n;
+        this.labels = createLabels(this.n);
+        this.textFields = createTextFields(this.n);
+        equationPanel.removeAll();
+        addLabelTextRows(labels, textFields, this.equationPanel);
+        equationPanel.revalidate();
+        equationPanel.repaint();
+        getTextArea().setText("");
+
+    }
+
     private JTextArea createTextArea() {
         JTextArea textArea = new JTextArea();
         textArea.setEditable(false);
-        textArea.append("Test result");
 
         return textArea;
     }
@@ -116,7 +139,6 @@ public class View {
 
     private void addLabelTextRows(JLabel[][] labels,
                                   JTextField[][] textFields,
-                                  GridBagLayout gridbag,
                                   Container container) {
         GridBagConstraints c = new GridBagConstraints();
         c.anchor = GridBagConstraints.WEST;
@@ -152,23 +174,15 @@ public class View {
         return textFields;
     }
 
-    public void setTextFields(JTextField[][] textFields) {
-        this.textFields = textFields;
-    }
-
     public JButton getSolveButton() {
         return solveButton;
-    }
-
-    public void setSolveButton(JButton solveButton) {
-        this.solveButton = solveButton;
     }
 
     public JTextArea getTextArea() {
         return textArea;
     }
 
-    public void setTextArea(JTextArea textArea) {
-        this.textArea = textArea;
+    public JComboBox getVariablesComboBox() {
+        return variablesComboBox;
     }
 }

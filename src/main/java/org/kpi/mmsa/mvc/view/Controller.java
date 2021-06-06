@@ -4,6 +4,7 @@ import org.kpi.mmsa.core.Solver;
 import org.kpi.mmsa.model.Result;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 
 public class Controller {
     private Model model;
@@ -34,6 +35,14 @@ public class Controller {
     }
     public void initController() {
         view.getSolveButton().addActionListener(e -> solveEquation());
+        view.getVariablesComboBox().addActionListener(e -> updateView(e));
+    }
+
+    private void updateView(ActionEvent e) {
+        int selectedIndex = view.getVariablesComboBox().getSelectedIndex();
+        this.view.refreshView(selectedIndex);
+        this.model = new Model(selectedIndex);
+        initView();
     }
 
     private void solveEquation() {
@@ -52,15 +61,6 @@ public class Controller {
 
 
         Result result = solver.solve(this.model);
-//        String result = getResult(this.model);
         view.getTextArea().setText(result.getLog());
-    }
-
-    private String getResult(Model model) {
-        StringBuilder sb = new StringBuilder("\n\t======================================\n");
-        for (int i = 0; i < model.getN(); i++) {
-            sb.append(String.format("\n\tX[%d] = %5.2f;\n", i+1, model.getX()[i]));
-        }
-        return sb.toString();
     }
 }
