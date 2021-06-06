@@ -138,6 +138,7 @@ public class Solver {
     }
 
     private boolean isZeroRow(double[][] matrixA, int n, int row) {
+
         for (int col = 0; col < n; ++col) {
             if (abs(matrixA[row][col]) > ZERO) {
                 return false;
