@@ -1,6 +1,6 @@
 package org.kpi.mmsa.core;
 
-import org.kpi.mmsa.model.Matrix;
+import org.kpi.mmsa.mvc.view.Model;
 
 import static java.lang.Math.abs;
 import static org.kpi.mmsa.util.PrintUtils.printMatrices;
@@ -9,7 +9,7 @@ import static org.kpi.mmsa.util.PrintUtils.printResult;
 public class Solver {
     private final static double ZERO = 10e-7;
 
-    public void solve(Matrix matrix) {
+    public void solve(Model matrix) {
         if (matrix == null) {
             System.out.println("\tMatrix is not initialized.\n");
             return;
@@ -33,7 +33,7 @@ public class Solver {
 
     }
 
-    private int forwardElimination(Matrix matrix) {
+    private int forwardElimination(Model matrix) {
         int nextRow = 0;
 //    changed to matrix->n-1 for not to show last step
         int n = matrix.getN();
@@ -86,7 +86,7 @@ public class Solver {
         return -1;
     }
 
-    int backSubstitution(Matrix matrix) {
+    int backSubstitution(Model matrix) {
         int n = matrix.getN();
         double[] matrixB = matrix.getB();
         double[][] matrixA = matrix.getA();
@@ -109,7 +109,7 @@ public class Solver {
         return -1;
     }
 
-    boolean isSingular(int singularFlag, final Matrix matrix) {
+    boolean isSingular(int singularFlag, final Model matrix) {
         if (singularFlag == -1) {
             return false;
         }

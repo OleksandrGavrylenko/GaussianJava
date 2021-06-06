@@ -1,41 +1,31 @@
-package org.kpi.mmsa.gui;
+package org.kpi.mmsa.mvc.view;
+
+import org.kpi.mmsa.gui.EquationPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
 
-public class EquationPanel extends JPanel implements ActionListener {
-
-    private int n = 2;
-    private String newline = "\n";
-    protected static final String textFieldString = "JTextField";
-    protected static final String passwordFieldString = "JPasswordField";
-    protected static final String ftfString = "JFormattedTextField";
-    protected static final String buttonString = "JButton";
-
-    protected JLabel actionLabel;
+public class View {
+    private int n;
+    private JPanel mainPanel;
+    private JLabel[][] labels;
+    private JTextField[][] textFields;
     private JButton solveButton;
     private JTextArea textArea;
 
+    public View(int n) {
+        this.n = n;
 
-    public EquationPanel() {
-        super(new BorderLayout());
+        mainPanel = new JPanel();
 
-        //Create a label to put messages during an action event.
-//        actionLabel = new JLabel("Type text in a field and press Enter.");
-//        actionLabel.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
-
-        //Lay out the text controls and the labels.
         JPanel equationPanel = new JPanel();
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
 
         equationPanel.setLayout(gridbag);
 
-        JLabel[][] labels = createLabels(n);
-        JTextField[][] textFields = createTextFields(n);
+        labels = createLabels(n);
+        textFields = createTextFields(n);
         addLabelTextRows(labels, textFields, gridbag, equationPanel);
 
         equationPanel.setBorder(
@@ -46,7 +36,6 @@ public class EquationPanel extends JPanel implements ActionListener {
         JPanel buttonPanel = new JPanel();
         solveButton = new JButton("Solve");
         solveButton.setActionCommand("Solve equation");
-        solveButton.addActionListener(this);
         buttonPanel.add(solveButton);
 
 
@@ -81,27 +70,10 @@ public class EquationPanel extends JPanel implements ActionListener {
                 BorderFactory.createTitledBorder("Styled Text"),
                 BorderFactory.createEmptyBorder(5,5,5,5)));
 
-        add(leftPane, BorderLayout.PAGE_START);
-        add(rightPane, BorderLayout.CENTER);
+        mainPanel.add(leftPane, BorderLayout.PAGE_START);
+        mainPanel.add(rightPane, BorderLayout.CENTER);
 
-    }
-
-    private JEditorPane createEditorPane() {
-        JEditorPane editorPane = new JEditorPane();
-        editorPane.setEditable(false);
-        java.net.URL helpURL = EquationPanel.class.getResource(
-                "TextSamplerDemoHelp.html");
-        if (helpURL != null) {
-            try {
-                editorPane.setPage(helpURL);
-            } catch (IOException e) {
-                System.err.println("Attempted to read a bad URL: " + helpURL);
-            }
-        } else {
-            System.err.println("Couldn't find file: TextSampleDemoHelp.html");
-        }
-
-        return editorPane;
+        createAndShowGUI();
     }
 
     private JTextArea createTextArea() {
@@ -162,25 +134,41 @@ public class EquationPanel extends JPanel implements ActionListener {
         }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String actionCommand = e.getActionCommand();
-        System.out.println(actionCommand);
-
-    }
-
-    public static void createAndShowGUI() {
+    public void createAndShowGUI() {
         //Create and set up the window.
-        JFrame frame = new JFrame("TextSamplerDemo");
+        JFrame frame = new JFrame("Gaussian Elimination");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1000, 800);
 
         //Add content to the window.
-        frame.add(new EquationPanel());
+        frame.add(mainPanel);
 
         //Display the window.
 //        frame.pack();
         frame.setVisible(true);
     }
 
+    public JTextField[][] getTextFields() {
+        return textFields;
+    }
+
+    public void setTextFields(JTextField[][] textFields) {
+        this.textFields = textFields;
+    }
+
+    public JButton getSolveButton() {
+        return solveButton;
+    }
+
+    public void setSolveButton(JButton solveButton) {
+        this.solveButton = solveButton;
+    }
+
+    public JTextArea getTextArea() {
+        return textArea;
+    }
+
+    public void setTextArea(JTextArea textArea) {
+        this.textArea = textArea;
+    }
 }

@@ -2,7 +2,7 @@ package org.kpi.mmsa.core;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kpi.mmsa.model.Matrix;
+import org.kpi.mmsa.mvc.view.Model;
 
 
 public class SolverTest {
@@ -11,7 +11,7 @@ public class SolverTest {
     public void solveExample1() {
         Solver solver = new Solver();
 
-        Matrix matrixToSolve = createInitMatrix1();
+        Model matrixToSolve = createInitMatrix1();
         solver.solve(matrixToSolve);
 
         double[] correctResult = new double[] {-3.25, -0.15, -3.15, 0.80};
@@ -26,7 +26,7 @@ public class SolverTest {
     public void solveExample2() {
         Solver solver = new Solver();
 
-        Matrix matrixToSolve = createInitMatrix2();
+        Model matrixToSolve = createInitMatrix2();
         solver.solve(matrixToSolve);
 
         double[] correctResult = new double[] {-2.17, -11.89, -1.32};
@@ -41,7 +41,7 @@ public class SolverTest {
     public void solveExample3() {
         Solver solver = new Solver();
 
-        Matrix matrixToSolve = createInitMatrix3();
+        Model matrixToSolve = createInitMatrix3();
         solver.solve(matrixToSolve);
 
         double[] correctResult = new double[] {2, 4.71, 6};
@@ -55,7 +55,7 @@ public class SolverTest {
     public void solveExample4() {
         Solver solver = new Solver();
 
-        Matrix matrixToSolve = createInitMatrix4();
+        Model matrixToSolve = createInitMatrix4();
         solver.solve(matrixToSolve);
 
         double[] correctResult = new double[] {3, 2.25, 1.5, 0.0};
@@ -71,10 +71,10 @@ public class SolverTest {
 
     }
 
-    private Matrix createInitMatrix1() {
-        Matrix matrix = new Matrix();
+    private Model createInitMatrix1() {
+        Model matrix = new Model(4);
 
-        matrix.setN(4);
+//        matrix.setN(4);
         matrix.setA(new double[][]{{1, 3, -2, -7}, {-1, -2, 1, 2}, {-2, -1, 3, 1}, {-3, -2, 3, 3}});
         matrix.setB(new double[]{-3, 2, -2, 3});
         matrix.setX(new double[]{0, 0, 0, 0});
@@ -82,10 +82,10 @@ public class SolverTest {
         return matrix;
     }
 
-    private Matrix createInitMatrix2() {
-        Matrix matrix = new Matrix();
+    private Model createInitMatrix2() {
+        Model matrix = new Model(3);
 
-        matrix.setN(3);
+//        matrix.setN(3);
         matrix.setA(new double[][]{{7.5, 2.4, -15}, {6.15, -4.3, 5.1}, {11.5, -4.7, 12}});
         matrix.setB(new double[]{-25, 31, 15});
         matrix.setX(new double[]{0, 0, 0});
@@ -93,10 +93,10 @@ public class SolverTest {
         return matrix;
     }
 
-    private Matrix createInitMatrix3() {
-        Matrix matrix = new Matrix();
+    private Model createInitMatrix3() {
+        Model matrix = new Model(3);
 
-        matrix.setN(3);
+//        matrix.setN(3);
         matrix.setA(new double[][]{{7, -2, -1}, {6, -4, -5}, {1, 2, 4}});
         matrix.setB(new double[]{2, 3, 5});
         matrix.setX(new double[]{0, 0, 0});
@@ -104,10 +104,10 @@ public class SolverTest {
         return matrix;
     }
 
-    private Matrix createInitMatrix4() {
-        Matrix matrix = new Matrix();
+    private Model createInitMatrix4() {
+        Model matrix = new Model(4);
 
-        matrix.setN(4);
+//        matrix.setN(4);
         matrix.setA(new double[][]{{2, 3, -1, 1}, {8, 12, -9, 8}, {4, 6, 3, -2}, {2, 3, 9, -7}});
         matrix.setB(new double[]{1, 3, 3, 3});
         matrix.setX(new double[]{0, 0, 0, 0});
@@ -119,7 +119,7 @@ public class SolverTest {
     public void notSingular() {
         Solver solver = new Solver();
 
-        Matrix matrix = createSingularMatrix(2);
+        Model matrix = createSingularMatrix(2);
         int singularFlag = -1;
         boolean singular = solver.isSingular(singularFlag, matrix);
 
@@ -130,15 +130,15 @@ public class SolverTest {
     public void singular() {
         Solver solver = new Solver();
 
-        Matrix matrix = createSingularMatrix(2);
+        Model matrix = createSingularMatrix(2);
         int singularFlag = 2;
         boolean singular = solver.isSingular(singularFlag, matrix);
 
         Assert.assertTrue(singular);
     }
 
-    private Matrix createSingularMatrix(int zeroRow) {
-        Matrix matrix = new Matrix();
+    private Model createSingularMatrix(int zeroRow) {
+        Model matrix = new Model(5);
         double[] matrixB = new double[] {1,2,3,4,5};
         matrixB[zeroRow] = 0.0;
 

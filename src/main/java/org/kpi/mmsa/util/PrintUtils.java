@@ -1,6 +1,6 @@
 package org.kpi.mmsa.util;
 
-import org.kpi.mmsa.model.Matrix;
+import org.kpi.mmsa.mvc.view.Model;
 
 public class PrintUtils {
     public static void printMatrices(final double[][] matrixA, double[] matrixB, int n) {
@@ -26,7 +26,7 @@ public class PrintUtils {
         System.out.println("\t======================================\n");
     }
 
-    public static void printResult(final Matrix matrix) {
+    public static void printResult(final Model matrix) {
         System.out.println("\n\t======================================\n");
         for (int i = 0; i < matrix.getN(); i++) {
             System.out.printf("\n\tX[%d] = %5.2f;\n", i+1, matrix.getX()[i]);

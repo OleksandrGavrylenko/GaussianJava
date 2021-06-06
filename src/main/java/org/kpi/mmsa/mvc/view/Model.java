@@ -1,10 +1,17 @@
-package org.kpi.mmsa.model;
+package org.kpi.mmsa.mvc.view;
 
-public class Matrix {
+public class Model {
     private int n;
     private double A[][];
     private double B[];
     private double X[];
+
+    public Model(int n) {
+        this.n = n;
+        A = new double[this.n][this.n];
+        B = new double[this.n];
+        X = new double[this.n];
+    }
 
     public int getN() {
         return n;
