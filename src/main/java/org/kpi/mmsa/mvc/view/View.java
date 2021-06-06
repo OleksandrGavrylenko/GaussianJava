@@ -12,6 +12,8 @@ public class View {
     private JTextArea textArea;
     private JComboBox variablesComboBox;
     private JPanel equationPanel;
+    private JPanel centralPane;
+    private JLabel result = new JLabel();
 
     public View(int n) {
         this.n = n;
@@ -54,11 +56,11 @@ public class View {
 //        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
 //                editorScrollPane,
 //                paneScrollPane);
-        JPanel leftPane = new JPanel(new BorderLayout());
-        leftPane.add(variablesPanel, BorderLayout.NORTH);
-        leftPane.add(equationPanel,
+        JPanel upperPane = new JPanel(new BorderLayout());
+        upperPane.add(variablesPanel, BorderLayout.NORTH);
+        upperPane.add(equationPanel,
                 BorderLayout.WEST);
-        leftPane.add(buttonPanel,
+        upperPane.add(buttonPanel,
                 BorderLayout.EAST);
 
         textArea = createTextArea();
@@ -68,22 +70,30 @@ public class View {
         editorScrollPane.setPreferredSize(new Dimension(250, 145));
         editorScrollPane.setMinimumSize(new Dimension(10, 10));
 
+        this.centralPane = new JPanel(new GridLayout(1,0));
+        centralPane.add(result);
+        this.centralPane.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createTitledBorder("Result of Gaussian Elimination"),
+                BorderFactory.createEmptyBorder(5,5,5,5)));
 
-//        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-//                editorScrollPane,
-//                paneScrollPane);
-//        splitPane.setOneTouchExpandable(true);
-//        splitPane.setResizeWeight(0.5);
 
-        JPanel rightPane = new JPanel(new GridLayout(1,0));
-        rightPane.add(editorScrollPane);
-//        rightPane.add(splitPane);
-        rightPane.setBorder(BorderFactory.createCompoundBorder(
+
+        JPanel buttomPane = new JPanel(new GridLayout(1,0));
+        buttomPane.add(editorScrollPane);
+//        buttomPane.add(splitPane);
+        buttomPane.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createTitledBorder("Styled Text"),
                 BorderFactory.createEmptyBorder(5,5,5,5)));
 
-        mainPanel.add(leftPane, BorderLayout.PAGE_START);
-        mainPanel.add(rightPane, BorderLayout.CENTER);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+                centralPane,
+                buttomPane);
+        splitPane.setOneTouchExpandable(true);
+        splitPane.setResizeWeight(0.5);
+
+        mainPanel.add(upperPane, BorderLayout.PAGE_START);
+        mainPanel.add(splitPane, BorderLayout.CENTER);
+//        mainPanel.add(buttomPane, BorderLayout.PAGE_END);
 
         createAndShowGUI();
     }
