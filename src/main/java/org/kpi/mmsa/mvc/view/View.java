@@ -5,6 +5,7 @@ import java.awt.*;
 
 public class View {
     private int n;
+    private JFrame frame;
     private JPanel mainPanel;
     private JMenuItem openItem;
     private JMenuItem helpItem;
@@ -170,7 +171,7 @@ public class View {
 
     public void createAndShowGUI() {
         //Create and set up the window.
-        JFrame frame = new JFrame("Gaussian Elimination");
+        frame = new JFrame("Gaussian Elimination");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1000, 800);
 
@@ -197,6 +198,10 @@ public class View {
         frame.setVisible(true);
     }
 
+    public JFrame getFrame() {
+        return frame;
+    }
+
     public JTextField[][] getTextFields() {
         return textFields;
     }
@@ -211,5 +216,13 @@ public class View {
 
     public JComboBox getVariablesComboBox() {
         return variablesComboBox;
+    }
+
+    public JMenuItem getOpenItem() {
+        return openItem;
+    }
+
+    public JMenuItem getHelpItem() {
+        return helpItem;
     }
 }
