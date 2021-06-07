@@ -1,5 +1,7 @@
 package org.kpi.mmsa.mvc.view;
 
+import org.kpi.mmsa.gui.DoubleField;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,7 +12,7 @@ public class View {
     private JMenuItem openItem;
     private JMenuItem helpItem;
     private JLabel[][] labels;
-    private JTextField[][] textFields;
+    private DoubleField[][] textFields;
     private JButton solveButton;
     private JTextArea textArea;
     private JComboBox variablesComboBox;
@@ -120,13 +122,13 @@ public class View {
         return textArea;
     }
 
-    private JTextField[][] createTextFields(int n) {
+    private DoubleField[][] createTextFields(int n) {
         int rows = n;
         int columns = n+1;
-        JTextField [][] textFields = new JTextField[rows][columns];
+        DoubleField [][] textFields = new DoubleField[rows][columns];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                textFields[i][j] = new JTextField("0", 5);
+                textFields[i][j] = new DoubleField(5);
             }
 
         }

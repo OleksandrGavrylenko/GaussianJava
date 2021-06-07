@@ -99,20 +99,35 @@ public class Controller {
 
     private void solveEquation() {
         JTextField[][] textFields = view.getTextFields();
-        double[][] a = model.getA();
-        double[] b = model.getB();
         int n = model.getN();
+        double[][] a = new double[n][n];
+        double[] b = new double[n];
+        String error = "";
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                a[i][j] = Double.parseDouble(textFields[i][j].getText());
+                try {
+                    a[i][j] = Double.parseDouble(textFields[i][j].getText());
+                } catch (NumberFormatException e) {
+                    error += "Invalid symbol at line " + (i+1) + ", column " + (j+1) + ".\n";
+                }
             }
         }
         for (int i = 0; i < n; i++) {
-            b[i] = Double.parseDouble(textFields[i][n].getText());
+            try {
+                b[i] = Double.parseDouble(textFields[i][n].getText());
+            } catch (NumberFormatException e) {
+                error += "Invalid symbol at result column, line number " + (i+1) + "./n";
+            }
         }
 
-
-        Result result = solver.solve(this.model);
-        view.getTextArea().setText(result.getLog());
+        if (!error.isEmpty()) {
+            view.getTextArea().setText(error);
+        } else {
+            model.setA(a);
+            model.setB(b);
+            model.setX(new double[n]);
+            Result result = solver.solve(this.model);
+            view.getTextArea().setText(result.getLog());
+        }
     }
 }
