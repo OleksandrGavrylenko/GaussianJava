@@ -62,11 +62,12 @@ public class View {
 //                editorScrollPane,
 //                paneScrollPane);
         JPanel upperPane = new JPanel(new BorderLayout());
+        JPanel jPanel = new JPanel(new BorderLayout());
+        jPanel.add(buttonPanel, BorderLayout.WEST);
         upperPane.add(variablesPanel, BorderLayout.NORTH);
         upperPane.add(equationPanel,
                 BorderLayout.WEST);
-        upperPane.add(buttonPanel,
-                BorderLayout.EAST);
+        upperPane.add(jPanel, BorderLayout.CENTER);
 
         textArea = createTextArea();
         JScrollPane editorScrollPane = new JScrollPane(textArea);
@@ -216,6 +217,10 @@ public class View {
         return textArea;
     }
 
+    public JLabel getResult() {
+        return result;
+    }
+
     public JComboBox getVariablesComboBox() {
         return variablesComboBox;
     }
@@ -227,4 +232,6 @@ public class View {
     public JMenuItem getHelpItem() {
         return helpItem;
     }
+
+
 }
