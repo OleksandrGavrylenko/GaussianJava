@@ -6,6 +6,8 @@ import java.awt.*;
 public class View {
     private int n;
     private JPanel mainPanel;
+    private JMenuItem openItem;
+    private JMenuItem helpItem;
     private JLabel[][] labels;
     private JTextField[][] textFields;
     private JButton solveButton;
@@ -171,6 +173,21 @@ public class View {
         JFrame frame = new JFrame("Gaussian Elimination");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1000, 800);
+
+        JMenuBar menuBar = new JMenuBar();
+        frame.setJMenuBar(menuBar);
+
+        JMenu fileMenu = new JMenu("File");
+        openItem = new JMenuItem("Open");
+        openItem.setFocusPainted(true);
+        fileMenu.add(openItem);
+        menuBar.add(fileMenu);
+
+        JMenu helpMenu = new JMenu("Help");
+        helpItem = new JMenuItem("Help");
+        helpItem.setFocusPainted(true);
+        helpMenu.add(helpItem);
+        menuBar.add(helpMenu);
 
         //Add content to the window.
         frame.add(mainPanel);
