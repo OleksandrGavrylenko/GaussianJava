@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
 
 public class Controller {
     private Model model;
@@ -44,19 +46,47 @@ public class Controller {
 
     private void readFile() {
         JFileChooser fc=new JFileChooser();
-        int i=fc.showOpenDialog(view.getFrame());
-        if(i==JFileChooser.APPROVE_OPTION){
+        fc.setCurrentDirectory(new File(System.getProperty("user.dir")));
+        int sd=fc.showOpenDialog(view.getFrame());
+        if(sd==JFileChooser.APPROVE_OPTION){
             File f=fc.getSelectedFile();
             String filepath=f.getPath();
+            Scanner scanner;
+            int n = 0;
+            double[][] a;
+            double[] b;
             try{
-                BufferedReader br=new BufferedReader(new FileReader(filepath));
-                String s1="",s2="";
-                while((s1=br.readLine())!=null){
-                    s2+=s1+"\n";
+                scanner = new Scanner(new BufferedReader(new FileReader(filepath)));
+                if (scanner.hasNextLine()){
+                    String[] line = scanner.nextLine().trim().split(",");
+                    n = Integer.parseInt(line[0]);
                 }
-                view.getTextArea().setText(s2);
-                br.close();
-            }catch (Exception ex) {ex.printStackTrace();  }
+                a = new double[n][n];
+                b = new double[n];
+                if (scanner.hasNextLine()){
+                    for (int i = 0; i < n; i++) {
+                        String[] line = scanner.nextLine().trim().split(",");
+                        for (int j=0; j<n; j++) {
+                            a[i][j] = Double.parseDouble(line[j]);
+                        }
+                    }
+                }
+                if (scanner.hasNextLine()){
+                    String[] line = scanner.nextLine().trim().split(",");
+                    for (int i = 0; i < n; i++) {
+                        b[i] = Double.parseDouble(line[i]);
+                    }
+                }
+                model.setN(n);
+                model.setA(a);
+                model.setB(b);
+                model.setX(new double[n]);
+                this.view.refreshView(n);
+                initView();
+
+            }catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 

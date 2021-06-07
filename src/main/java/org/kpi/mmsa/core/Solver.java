@@ -128,7 +128,7 @@ public class Solver {
     }
 
     private void swapRow(double[][] matrixA, double[] matrixB, int n, int row1, int row2) {
-        sb.append("\tSwapped rows %d and %d\n", row1+1, row2+1);
+        sb.append(String.format("\tSwapped rows %d and %d\n", row1+1, row2+1));
 
         for (int k = 0; k < n; ++k) {
             double temp = matrixA[row1][k];
