@@ -17,10 +17,10 @@ public class DoubleField extends JTextField {
 
     @Override
     protected Document createDefaultModel() {
-        return new UpperCaseDocument();
+        return new DoubleDocument();
     }
 
-    static class UpperCaseDocument extends PlainDocument {
+    static class DoubleDocument extends PlainDocument {
         @Override
         public void insertString(int offs, String str, AttributeSet a)
                 throws BadLocationException {
@@ -31,7 +31,7 @@ public class DoubleField extends JTextField {
 
             boolean ok = true;
 
-            if (!str.equals(".")) {
+            if (!(str.equals(".") || str.equals("-"))) {
                 try {
                     Double.parseDouble(str);
                 } catch (NumberFormatException exc) {

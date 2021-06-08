@@ -146,7 +146,9 @@ public class Controller {
             model.setX(new double[n]);
             Result result = solver.solve(this.model);
 
-            view.getResult().setText(prettyPrint(result.getModel()));
+            if (result.getModel() != null) {
+                view.getResult().setText(prettyPrint(result.getModel()));
+            }
             view.getTextArea().setText(result.getLog());
         }
     }

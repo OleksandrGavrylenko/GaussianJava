@@ -21,12 +21,12 @@ public class Solver {
         int singularFlag = forwardElimination(matrix);
 
         if(isSingular(singularFlag, matrix)) {
-            return new Result(matrix, sb.toString());
+            return new Result(null, sb.toString());
         }
 
         singularFlag = backSubstitution(matrix);
         if (isSingular(singularFlag, matrix)) {
-            return new Result(matrix, sb.toString());
+            return new Result(null, sb.toString());
         }
 
         sb.append("\n\tThe Gaussian forward stroke:");

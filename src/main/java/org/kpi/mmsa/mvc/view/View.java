@@ -77,6 +77,7 @@ public class View {
         editorScrollPane.setMinimumSize(new Dimension(10, 10));
 
         this.centralPane = new JPanel(new GridLayout(1,0));
+        result.setFont(new Font(result.getName(), Font.PLAIN, 16));
         centralPane.add(result);
         this.centralPane.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createTitledBorder("Result of Gaussian Elimination"),
@@ -88,7 +89,7 @@ public class View {
         buttomPane.add(editorScrollPane);
 //        buttomPane.add(splitPane);
         buttomPane.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createTitledBorder("Styled Text"),
+                BorderFactory.createTitledBorder("Program log"),
                 BorderFactory.createEmptyBorder(5,5,5,5)));
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
