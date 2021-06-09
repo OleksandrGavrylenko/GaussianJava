@@ -47,16 +47,13 @@ public class Controller {
     }
 
     private void showAbout() {
-        new HelpWindow();
+        view.showHelpWindow();
     }
 
     private void readFile() {
-        JFileChooser fc = new JFileChooser();
-        fc.setCurrentDirectory(new File(System.getProperty("user.dir")));
-        int sd = fc.showOpenDialog(view.getFrame());
-        if (sd == JFileChooser.APPROVE_OPTION) {
-            File f = fc.getSelectedFile();
-            String filepath = f.getPath();
+        File file = view.readFile();
+        if (file != null) {
+            String filepath = file.getPath();
             Scanner scanner;
             int n = 0;
             double[][] a;

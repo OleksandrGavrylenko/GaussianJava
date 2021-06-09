@@ -1,9 +1,11 @@
 package org.kpi.mmsa.mvc.view;
 
 import org.kpi.mmsa.gui.DoubleField;
+import org.kpi.mmsa.gui.HelpWindow;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 public class View {
     private int n;
@@ -43,7 +45,7 @@ public class View {
         this.equationPanel.setLayout(gridbag);
 
         this.labels = createLabels(this.n);
-        this.textFields = createTextFields(this.n);
+        this.textFields = createDoubleFields(this.n);
         addLabelTextRows(labels, textFields, equationPanel);
 
         equationPanel.setBorder(
@@ -108,7 +110,7 @@ public class View {
     public void refreshView(int n) {
         this.n = n;
         this.labels = createLabels(this.n);
-        this.textFields = createTextFields(this.n);
+        this.textFields = createDoubleFields(this.n);
         equationPanel.removeAll();
         addLabelTextRows(labels, textFields, this.equationPanel);
         equationPanel.revalidate();
@@ -124,7 +126,7 @@ public class View {
         return textArea;
     }
 
-    private DoubleField[][] createTextFields(int n) {
+    private DoubleField[][] createDoubleFields(int n) {
         int rows = n;
         int columns = n+1;
         DoubleField [][] textFields = new DoubleField[rows][columns];
@@ -132,7 +134,6 @@ public class View {
             for (int j = 0; j < columns; j++) {
                 textFields[i][j] = new DoubleField(5);
             }
-
         }
         return textFields;
     }
@@ -194,12 +195,23 @@ public class View {
         helpMenu.add(aboutItem);
         menuBar.add(helpMenu);
 
-        //Add content to the window.
         frame.add(mainPanel);
 
-        //Display the window.
-//        frame.pack();
         frame.setVisible(true);
+    }
+
+    public void showHelpWindow() {
+        new HelpWindow();
+    }
+
+    public File readFile() {
+        JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new File(System.getProperty("user.dir")));
+        int sd = fc.showOpenDialog(this.getFrame());
+        if (sd == JFileChooser.APPROVE_OPTION) {
+            return fc.getSelectedFile();
+        }
+        return null;
     }
 
     public JFrame getFrame() {
