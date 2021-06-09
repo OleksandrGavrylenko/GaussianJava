@@ -10,7 +10,7 @@ public class View {
     private JFrame frame;
     private JPanel mainPanel;
     private JMenuItem openItem;
-    private JMenuItem helpItem;
+    private JMenuItem aboutItem;
     private JLabel[][] labels;
     private DoubleField[][] textFields;
     private JButton solveButton;
@@ -189,9 +189,9 @@ public class View {
         menuBar.add(fileMenu);
 
         JMenu helpMenu = new JMenu("Help");
-        helpItem = new JMenuItem("Help");
-        helpItem.setFocusPainted(true);
-        helpMenu.add(helpItem);
+        aboutItem = new JMenuItem("About");
+        aboutItem.setFocusPainted(true);
+        helpMenu.add(aboutItem);
         menuBar.add(helpMenu);
 
         //Add content to the window.
@@ -230,8 +230,8 @@ public class View {
         return openItem;
     }
 
-    public JMenuItem getHelpItem() {
-        return helpItem;
+    public JMenuItem getAboutItem() {
+        return aboutItem;
     }
 
 

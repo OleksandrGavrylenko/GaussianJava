@@ -1,6 +1,7 @@
 package org.kpi.mmsa.mvc.view;
 
 import org.kpi.mmsa.core.Solver;
+import org.kpi.mmsa.gui.HelpWindow;
 import org.kpi.mmsa.model.Result;
 
 import javax.swing.*;
@@ -42,6 +43,11 @@ public class Controller {
         view.getSolveButton().addActionListener(e -> solveEquation());
         view.getVariablesComboBox().addActionListener(e -> updateView(e));
         view.getOpenItem().addActionListener(e -> readFile());
+        view.getAboutItem().addActionListener(e -> showAbout());
+    }
+
+    private void showAbout() {
+        new HelpWindow();
     }
 
     private void readFile() {
