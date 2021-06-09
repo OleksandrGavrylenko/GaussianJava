@@ -2,33 +2,35 @@ package org.kpi.mmsa.util;
 
 import org.kpi.mmsa.mvc.view.Model;
 
+import static java.lang.String.format;
+
 public class PrintUtils {
     public static String printMatrices(final double[][] matrixA, double[] matrixB, int n) {
-        String result = "\n\t======================================\n";
+        StringBuilder sb = new StringBuilder("\n\t======================================\n");
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (j == 0) {
-                    result += String.format("\t%2s", "|");
+                    sb.append(format("\t%2s", "|"));
                 }
-                result += String.format("%7.2f ", matrixA[i][j]);
+                sb.append(format("%7.2f ", matrixA[i][j]));
                 if (j == n - 1) {
-                    result += String.format("%s", "|");
+                    sb.append(format("%s", "|"));
                 }
             }
-            result += String.format("\t%8s", "|");
-            result += String.format("%7.2f", matrixB[i]);
-            result += String.format("%s\n", "|");
+            sb.append(format("\t%8s", "|"));
+            sb.append(format("%7.2f", matrixB[i]));
+            sb.append(format("%s\n", "|"));
         }
-        result += "\t======================================\n";
-        return result;
+        sb.append("\t======================================\n");
+        return sb.toString();
     }
 
     public static String printResult(final Model matrix) {
-        String result = "\n\t======================================\n";
+        StringBuilder sb = new StringBuilder("\n\t======================================\n");
         for (int i = 0; i < matrix.getN(); i++) {
-            result += String.format("\n\tX[%d] = %5.2f;\n",  i+1, matrix.getX()[i]);
+            sb.append(format("\n\tX[%d] = %5.2f;\n", i + 1, matrix.getX()[i]));
         }
-        return result;
+        return sb.toString();
     }
 }

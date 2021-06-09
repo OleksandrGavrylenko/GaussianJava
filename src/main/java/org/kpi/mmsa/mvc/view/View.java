@@ -58,11 +58,6 @@ public class View {
         solveButton.setActionCommand("Solve equation");
         buttonPanel.add(solveButton);
 
-
-        //Put everything together.
-//        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-//                editorScrollPane,
-//                paneScrollPane);
         JPanel upperPane = new JPanel(new BorderLayout());
         JPanel jPanel = new JPanel(new BorderLayout());
         jPanel.add(buttonPanel, BorderLayout.WEST);
@@ -89,7 +84,6 @@ public class View {
 
         JPanel buttomPane = new JPanel(new GridLayout(1,0));
         buttomPane.add(editorScrollPane);
-//        buttomPane.add(splitPane);
         buttomPane.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createTitledBorder("Program log"),
                 BorderFactory.createEmptyBorder(5,5,5,5)));
@@ -102,7 +96,6 @@ public class View {
 
         mainPanel.add(upperPane, BorderLayout.PAGE_START);
         mainPanel.add(splitPane, BorderLayout.CENTER);
-//        mainPanel.add(buttomPane, BorderLayout.PAGE_END);
 
         createAndShowGUI();
     }

@@ -1,11 +1,9 @@
 package org.kpi.mmsa.mvc.view;
 
 import org.kpi.mmsa.core.Solver;
-import org.kpi.mmsa.gui.HelpWindow;
 import org.kpi.mmsa.model.Result;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -41,7 +39,7 @@ public class Controller {
 
     public void initController() {
         view.getSolveButton().addActionListener(e -> solveEquation());
-        view.getVariablesComboBox().addActionListener(e -> updateView(e));
+        view.getVariablesComboBox().addActionListener(e -> updateView());
         view.getOpenItem().addActionListener(e -> readFile());
         view.getAboutItem().addActionListener(e -> showAbout());
     }
@@ -58,7 +56,7 @@ public class Controller {
             int n = 0;
             double[][] a;
             double[] b;
-            String error = "";
+            StringBuilder sb = new StringBuilder();
             try {
                 scanner = new Scanner(new BufferedReader(new FileReader(filepath)));
                 if (scanner.hasNextLine()) {
@@ -66,7 +64,7 @@ public class Controller {
                         String[] line = scanner.nextLine().trim().split(",");
                         n = Integer.parseInt(line[0]);
                     } catch (NumberFormatException e) {
-                        error += "Invalid symbol at line first line\n.";
+                        sb.append("Invalid symbol at line first line\n.");
                     }
                 }
                 a = new double[n][n];
@@ -78,7 +76,7 @@ public class Controller {
                             try {
                                 a[i][j] = Double.parseDouble(line[j]);
                             } catch (NumberFormatException e) {
-                                error += "Invalid symbol at line " + (i + 2) + ", column " + (j + 1) + ".\n";
+                                sb.append("Invalid symbol at line " + (i + 2) + ", column " + (j + 1) + ".\n");
                             }
                         }
                     }
@@ -89,13 +87,13 @@ public class Controller {
                         try {
                             b[i] = Double.parseDouble(line[i]);
                         } catch (NumberFormatException e) {
-                            error += "Invalid symbol at line " + (n + 2) + ", column " + (i + 1) + ".\n";
+                            sb.append("Invalid symbol at line " + (n + 2) + ", column " + (i + 1) + ".\n");
                         }
                     }
                 }
 
-                if (!error.isEmpty()) {
-                    view.getTextArea().setText(error);
+                if (sb.length() > 0) {
+                    view.getTextArea().setText(sb.toString());
                 } else {
                     model.setN(n);
                     model.setA(a);
@@ -111,7 +109,7 @@ public class Controller {
         }
     }
 
-    private void updateView(ActionEvent e) {
+    private void updateView() {
         int selectedIndex = view.getVariablesComboBox().getSelectedIndex();
         this.view.refreshView(selectedIndex);
         this.model = new Model(selectedIndex);
@@ -123,13 +121,13 @@ public class Controller {
         int n = model.getN();
         double[][] a = new double[n][n];
         double[] b = new double[n];
-        String error = "";
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 try {
                     a[i][j] = Double.parseDouble(textFields[i][j].getText());
                 } catch (NumberFormatException e) {
-                    error += "Invalid symbol at line " + (i + 1) + ", column " + (j + 1) + ".\n";
+                    sb.append("Invalid symbol at line ").append(i + 1).append(", column ").append(j + 1).append(".\n");
                 }
             }
         }
@@ -137,12 +135,12 @@ public class Controller {
             try {
                 b[i] = Double.parseDouble(textFields[i][n].getText());
             } catch (NumberFormatException e) {
-                error += "Invalid symbol at result column, line number " + (i + 1) + "./n";
+                sb.append("Invalid symbol at result column, line number ").append(i + 1).append("./n");
             }
         }
 
-        if (!error.isEmpty()) {
-            view.getTextArea().setText(error);
+        if (sb.length() > 0) {
+            view.getTextArea().setText(sb.toString());
         } else {
             model.setA(a);
             model.setB(b);
