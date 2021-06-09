@@ -1,4 +1,4 @@
-package org.kpi.mmsa.mvc.view;
+package org.kpi.mmsa.mvc;
 
 public class Model {
     private int n;

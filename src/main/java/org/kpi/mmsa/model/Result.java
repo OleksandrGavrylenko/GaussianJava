@@ -1,6 +1,6 @@
 package org.kpi.mmsa.model;
 
-import org.kpi.mmsa.mvc.view.Model;
+import org.kpi.mmsa.mvc.Model;
 
 public class Result {
     private Model model;

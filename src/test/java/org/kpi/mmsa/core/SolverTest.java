@@ -2,7 +2,7 @@ package org.kpi.mmsa.core;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kpi.mmsa.mvc.view.Model;
+import org.kpi.mmsa.mvc.Model;
 
 
 public class SolverTest {

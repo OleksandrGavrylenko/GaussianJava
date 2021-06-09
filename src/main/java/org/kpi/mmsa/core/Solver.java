@@ -1,7 +1,7 @@
 package org.kpi.mmsa.core;
 
 import org.kpi.mmsa.model.Result;
-import org.kpi.mmsa.mvc.view.Model;
+import org.kpi.mmsa.mvc.Model;
 
 import static java.lang.Math.abs;
 import static org.kpi.mmsa.util.PrintUtils.printMatrices;

@@ -1,6 +1,6 @@
 package org.kpi.mmsa.util;
 
-import org.kpi.mmsa.mvc.view.Model;
+import org.kpi.mmsa.mvc.Model;
 
 import static java.lang.String.format;
 

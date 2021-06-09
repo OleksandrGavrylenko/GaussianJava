@@ -1,4 +1,4 @@
-package org.kpi.mmsa.mvc.view;
+package org.kpi.mmsa.mvc;
 
 import org.kpi.mmsa.gui.DoubleField;
 import org.kpi.mmsa.gui.HelpWindow;
