@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.Scanner;
 
+import static org.kpi.mmsa.util.PrintUtils.prettyPrint;
+
 public class Controller {
     private Model model;
     private View view;
@@ -19,22 +21,7 @@ public class Controller {
         this.model = model;
         this.view = view;
         this.solver = new Solver();
-        initView();
-    }
-
-    public void initView() {
-        JTextField[][] textFields = view.getTextFields();
-        double[][] a = model.getA();
-        double[] b = model.getB();
-        int n = model.getN();
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                textFields[i][j].setText(String.valueOf(a[i][j]));
-            }
-        }
-        for (int i = 0; i < n; i++) {
-            textFields[i][n].setText(String.valueOf(b[i]));
-        }
+        view.init(this.model);
     }
 
     public void initController() {
@@ -101,7 +88,7 @@ public class Controller {
                     model.setX(new double[n]);
                     this.view.getResult().setText("");
                     this.view.refreshView(n);
-                    initView();
+                    view.init(model);
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -113,7 +100,7 @@ public class Controller {
         int selectedIndex = view.getVariablesComboBox().getSelectedIndex();
         this.view.refreshView(selectedIndex);
         this.model = new Model(selectedIndex);
-        initView();
+        view.init(this.model);
     }
 
     private void solveEquation() {
@@ -152,14 +139,5 @@ public class Controller {
             }
             view.getTextArea().setText(result.getLog());
         }
-    }
-
-    private String prettyPrint(Model model) {
-        double[] x = model.getX();
-        String result = "";
-        for (int i = 0; i < model.getN(); i++) {
-            result += String.format("\n\tX[%d] = %5.2f; \n", (i + 1), x[i]);
-        }
-        return result;
     }
 }

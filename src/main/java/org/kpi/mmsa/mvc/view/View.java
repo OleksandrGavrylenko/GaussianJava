@@ -100,6 +100,21 @@ public class View {
         createAndShowGUI();
     }
 
+    public void init(Model model) {
+        JTextField[][] textFields = this.getTextFields();
+        double[][] a = model.getA();
+        double[] b = model.getB();
+        int n = model.getN();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                textFields[i][j].setText(String.valueOf(a[i][j]));
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            textFields[i][n].setText(String.valueOf(b[i]));
+        }
+    }
+
     public void refreshView(int n) {
         this.n = n;
         this.labels = createLabels(this.n);
@@ -109,7 +124,6 @@ public class View {
         equationPanel.revalidate();
         equationPanel.repaint();
         getTextArea().setText("");
-
     }
 
     private JTextArea createTextArea() {
@@ -238,6 +252,4 @@ public class View {
     public JMenuItem getAboutItem() {
         return aboutItem;
     }
-
-
 }

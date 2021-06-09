@@ -90,7 +90,7 @@ public class Solver {
         return -1;
     }
 
-    int backSubstitution(Model matrix) {
+    private int backSubstitution(Model matrix) {
         int n = matrix.getN();
         double[] matrixB = matrix.getB();
         double[][] matrixA = matrix.getA();

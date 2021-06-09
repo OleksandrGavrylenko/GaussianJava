@@ -33,4 +33,13 @@ public class PrintUtils {
         }
         return sb.toString();
     }
+
+    public static String prettyPrint(Model model) {
+        double[] x = model.getX();
+        String result = "";
+        for (int i = 0; i < model.getN(); i++) {
+            result += String.format("\n\tX[%d] = %5.2f; \n", (i + 1), x[i]);
+        }
+        return result;
+    }
 }
